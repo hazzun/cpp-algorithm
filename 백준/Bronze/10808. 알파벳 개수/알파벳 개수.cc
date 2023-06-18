@@ -2,6 +2,27 @@
 #include <iostream>
 using namespace std;
 
+int countArr[26]; // 전역에 배열선언하면 자동으로 0으로 초기화
+
+int main()
+{
+  ios::sync_with_stdio(0);
+  cin.tie(0);
+
+  string s;
+  cin >> s;
+
+  for (auto tmp : s) // s에서 문자열 하나씩 꺼내기
+  {
+    countArr[tmp - 'a']++;
+  }
+  for (int i = 0; i < 26; i++)
+  {
+    cout << countArr[i] << " ";
+  }
+}
+
+/**
 int main()
 {
   // 문자열 입력받기
@@ -27,3 +48,4 @@ int main()
     cout << alpaArr[i] << ' ';
   }
 }
+*/
