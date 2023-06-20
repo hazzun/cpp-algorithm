@@ -11,11 +11,9 @@ int main()
   int a, b, c, exp;
   cin >> a >> b >> c;
   exp = a * b * c;
-  string strExp = to_string(exp);
-  for (int i = 0; i < strExp.size(); i++)
-  {
-    int checkNum = strExp[i] - '0';
-    arr[checkNum]++;
+  while(exp != 0){
+      arr[exp % 10]++;
+      exp /= 10;
   }
   for (int i = 0; i < 10; i++)
   {
