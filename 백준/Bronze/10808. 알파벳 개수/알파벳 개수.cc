@@ -9,6 +9,15 @@ int main()
   ios::sync_with_stdio(0);
   cin.tie(0);
 
+  /**
+   * 배열을 전역변수가 아닌 지역변수에 선언했을 경우
+   *
+   * 1. int countArr[26] = {}
+   * 2. fill(countArr, countArr + 26, 0)
+   *
+   * 이런식으로 초기화작업 해줘야함
+   */
+
   string s;
   cin >> s;
 
