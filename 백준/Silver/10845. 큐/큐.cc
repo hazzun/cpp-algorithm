@@ -1,14 +1,24 @@
 #include <iostream>
-#include <queue>
 using namespace std;
 
+int queue[10000];
+int head = 0, tail = 0;
+
+void push(int x)
+{
+  queue[tail++] = x;
+}
+
+void pop()
+{
+  head++;
+}
 
 int main()
 {
+
   ios::sync_with_stdio(0);
   cin.tie(0);
-  queue<int> Q;
-
   int n;
   cin >> n;
   while (n--)
@@ -20,35 +30,40 @@ int main()
     {
       int k;
       cin >> k;
-      Q.push(k);
+      push(k);
     }
     if (cmd == "pop")
     {
-      if (Q.empty())
+      if (head == tail)
         cout << "-1\n";
       else
       {
-        cout << Q.front() << "\n";
-        Q.pop();
+        cout << queue[head] << "\n";
+        pop();
       }
     }
     if (cmd == "size")
-      cout << Q.size() << "\n";
+      cout << tail - head << "\n";
     if (cmd == "empty")
-      cout << Q.empty() << "\n";
+    {
+      if (head == tail)
+        cout << "1\n";
+      else
+        cout << "0\n";
+    }
     if (cmd == "front")
     {
-      if (Q.empty())
+      if (head == tail)
         cout << "-1\n";
       else
-        cout << Q.front() << "\n";
+        cout << queue[head] << "\n";
     }
     if (cmd == "back")
     {
-      if (Q.empty())
+      if (head == tail)
         cout << "-1\n";
       else
-        cout << Q.back() << "\n";
+        cout << queue[tail - 1] << "\n";
     }
   }
 }
