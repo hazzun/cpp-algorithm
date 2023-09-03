@@ -15,11 +15,12 @@ queue<pair<int, int>> Q;
 void bfs(int x, int y)
 {
   Q.push({x, y});
+  vis[x][y] = 1;
+
   while (!Q.empty())
   {
     auto cur = Q.front();
     Q.pop();
-    vis[cur.first][cur.second] = 1;
 
     for (int dir = 0; dir < 4; dir++)
     {
@@ -30,6 +31,7 @@ void bfs(int x, int y)
         continue;
       if (nx < 0 || nx >= n || ny < 0 || ny >= n)
         continue;
+      vis[nx][ny] = 1;
       Q.push({nx, ny});
     }
   }
@@ -50,7 +52,6 @@ int main()
   {
     int x, y;
     cin >> x >> y;
-    board[x - 1][y - 1] = 1;
     bfs(x - 1, y - 1);
   }
 
