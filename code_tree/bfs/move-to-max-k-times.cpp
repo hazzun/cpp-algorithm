@@ -20,23 +20,21 @@ pair<int, int> priority(int num)
   {
     for (int j = 0; j < boardSize; j++)
     {
-      if (board[i][j] == num)
-      {
-        // cout << i << " " << j << ", ";
+      if (board[i][j] == num && vis[i][j])
         return pair<int, int>({i, j});
-      }
     }
   }
 }
 
 int bfs(pair<int, int> dot)
 {
+  int count = 0;
+
   if (boardSize == 1)
     maxNum = board[dot.first][dot.second];
   else
     maxNum = 0;
   queue<pair<int, int>> Q;
-  // cout << dot.first << dot.second;
   Q.push({dot.first, dot.second});
   while (!Q.empty())
   {
@@ -55,18 +53,15 @@ int bfs(pair<int, int> dot)
 
       cout << "nx : " << nx << ", ny : " << ny << "\n";
 
+      count++;
       vis[nx][ny] = 1;
       maxNum = max(maxNum, board[nx][ny]);
       Q.push({nx, ny});
     }
   }
-  for (int i = 0; i < boardSize; i++)
-  {
-    for (int j = 0; j < boardSize; j++)
-    {
-      vis[i][j] = 0;
-    }
-  }
+  if (count == 0)
+    vis[dot.first][dot.second] = 1;
+
   if (maxNum == 0)
     return board[dot.first][dot.second];
   else
@@ -80,12 +75,9 @@ int main()
 
   cin >> boardSize >> trial;
   for (int i = 0; i < boardSize; i++)
-  {
     for (int j = 0; j < boardSize; j++)
-    {
       cin >> board[i][j];
-    }
-  }
+
   cin >> x >> y;
   vis[x - 1][y - 1] = 1;
 
@@ -97,14 +89,11 @@ int main()
     cout << "answer = " << answer << "\n";
     arg = priority(answer);
     cout << "arg.first = " << arg.first << ", arg.second = " << arg.second << "\n";
+
+    for (int i = 0; i < boardSize; i++)
+      for (int j = 0; j < boardSize; j++)
+        vis[i][j] = 0;
   }
   cout << "\n";
   cout << arg.first + 1 << " " << arg.second + 1;
 }
-
-/**
- * 초기 좌표값 입력받기
- * 해당 좌표에 해당하는 값보다 작은 것을 바탕으로 bfs돌림
- * bfs 돌리면서 최대값 받아내기
- * 최대값을 인자로 넣어서 우선순위가 높은 좌표값을 받아오는 함수 실행
- */
