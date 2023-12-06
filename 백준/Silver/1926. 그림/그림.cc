@@ -1,65 +1,67 @@
 #include <iostream>
+#include <algorithm>
 #include <queue>
-#include <utility>
 
 using namespace std;
 
-int board[500][500];
-bool vis[500][500];
-int dx[4] = {1, 0, -1, 0};
-int dy[4] = {0, 1, 0, -1};
+int dx[4] = {0, 0, 1, -1};
+int dy[4] = {1, -1, 0, 0};
 
-int main(void) {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
+int board[502][502];
+bool vis[502][502];
 
-  queue<pair<int, int>> Q;
+int n, m;
+queue<pair<int, int>> Q;
 
-  int countPicture = 0;
-  int mx = 0;
-  int n, m;
-  cin >> n >> m;
+int bfs()
+{
+  int count = 1;
+  while (!Q.empty())
+  {
+    auto cur = Q.front();
+    Q.pop();
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      int k;
-      cin >> k;
-      board[i][j] = k;
+    for (int dir = 0; dir < 4; dir++)
+    {
+      int nx = cur.first + dx[dir];
+      int ny = cur.second + dy[dir];
+      if (nx < 0 || ny < 0 || nx >= n || ny >= m)
+        continue;
+      if (vis[nx][ny] || board[nx][ny] != 1)
+        continue;
+      vis[nx][ny] = 1;
+      count++;
+      Q.push({nx, ny});
     }
   }
+  return count;
+}
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
+int main()
+{
+  cin.tie(0);
+  ios::sync_with_stdio(0);
 
-      if (vis[i][j] != board[i][j]) {
-        countPicture++;
+  cin >> n >> m;
+  for (int i = 0; i < n; i++)
+    for (int j = 0; j < m; j++)
+      cin >> board[i][j];
 
-        Q.push({i, j});
+  int checkCount = 0;
+  int answer = 0;
+
+  for (int i = 0; i < n; i++)
+  {
+    for (int j = 0; j < m; j++)
+    {
+      if (board[i][j] && !vis[i][j])
+      {
         vis[i][j] = 1;
-
-        int size = 0;
-
-        while (!Q.empty()) {
-          size++;
-          pair<int, int> cur = Q.front();
-          Q.pop();
-            
-          for (int dir = 0; dir < 4; dir++) {
-            int nx = cur.first + dx[dir];
-            int ny = cur.second + dy[dir];
-
-            if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-              continue;
-            if (vis[nx][ny] || board[nx][ny] != 1)
-              continue;
-
-            vis[nx][ny] = 1;
-            Q.push({nx, ny});
-          }
-        }
-        mx = max(mx, size);
+        Q.push({i, j});
+        answer = max(answer, bfs());
+        checkCount++;
       }
     }
   }
-  cout << countPicture << "\n" << mx;
+  cout << checkCount << "\n" << answer;
 }
